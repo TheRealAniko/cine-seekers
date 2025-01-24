@@ -1,0 +1,34 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- 3D Tilt Effect for Magnifying Glass -->
+  <g transform="rotate(-10, 200, 200)">
+    <!-- Outer Frame of Magnifying Glass -->
+    <circle cx="200" cy="200" r="150" fill="none" stroke="#000" stroke-width="10" />
+    
+    <!-- Film Reel Inside Magnifying Glass -->
+    <circle cx="200" cy="200" r="120" fill="#EEE" stroke="#555" stroke-width="5" />
+    <!-- Larger Film Reel Holes -->
+    <circle cx="200" cy="130" r="18" fill="#333" />
+    <circle cx="270" cy="200" r="18" fill="#333" />
+    <circle cx="200" cy="270" r="18" fill="#333" />
+    <circle cx="130" cy="200" r="18" fill="#333" />
+    <!-- Smaller Film Reel Holes -->
+    <circle cx="200" cy="165" r="8" fill="#333" />
+    <circle cx="235" cy="200" r="8" fill="#333" />
+    <circle cx="200" cy="235" r="8" fill="#333" />
+    <circle cx="165" cy="200" r="8" fill="#333" />
+  </g>
+
+  <!-- Filmstrip Border Around Magnifying Glass -->
+  <path d="M50 200 A150 150 0 1 1 350 200 A150 150 0 1 1 50 200" 
+        fill="none" stroke="#000" stroke-width="5" stroke-dasharray="15, 10" />
+
+  <!-- Magnifying Glass Handle -->
+  <g transform="rotate(45, 300, 300)">
+    <rect x="280" y="280" width="120" height="30" fill="#777" rx="15" />
+    <rect x="290" y="290" width="100" height="10" fill="#555" rx="5" />
+  </g>
+
+  <!-- Subtle Shadow for 3D Effect -->
+  <ellipse cx="200" cy="230" rx="150" ry="160" fill="rgba(0, 0, 0, 0.1)" transform="rotate(-10, 200, 230)" />
+</svg>
