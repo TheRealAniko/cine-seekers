@@ -1,3 +1,9 @@
+import {
+    getFavorites,
+    setFavorites,
+    removeFavoriteById,
+} from "./modules/storage.js";
+
 // Wait for the DOM to load (Timur)
 document.addEventListener("DOMContentLoaded", () => {
     const API_KEY = "e1db7731774da84825c6ecc635ee0aea"; // Replace with your TMDB API key (Timur)
@@ -286,17 +292,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 "mt-4 bg-red-500 text-white font-medium py-2 px-4 rounded-md hover:bg-red-600";
             addToFavoritesButton.textContent = "Add to favorites";
 
-            // Add to favorites function
+            // Adds the movie to the favorites list when the button is clicked.
             addToFavoritesButton.addEventListener("click", () => {
-                const favorites =
-                    JSON.parse(localStorage.getItem("favorites")) || [];
-                favorites.push(result);
-                localStorage.setItem("favorites", JSON.stringify(favorites));
+                const favorites = getFavorites(); // Hole aktuelle Favoriten
+                favorites.push(result); // Neues Ergebnis hinzufügen
+                setFavorites(favorites); // Favoriten speichern
                 alert(`${result.title} has been added to your favorites`);
             });
-
-            // Debugging: Check if button is created and appended
-            console.log("Button Created:", addToFavoritesButton);
 
             // Append all elements in the correct order
             resultContent.appendChild(resultTitle);
