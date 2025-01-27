@@ -31,6 +31,16 @@
             .movie-card {
                 flex: 0 0 15%;
             }
+
+            /* Smooth scrolling for better user experience */
+            #popular-movie-container {
+                scroll-behavior: smooth;
+            }
+
+            /* 5 display 5 movies at once */
+            .movie-card {
+                flex: 0 0 15%;
+            }
         </style>
     </head>
 
@@ -215,7 +225,7 @@
         </div>
     </footer>
 
-        <script src="javascript.js"></script>
+        <script type="module" src="./journal.js"></script>
     </body>
 </html>
 
