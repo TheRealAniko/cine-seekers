@@ -124,6 +124,64 @@
               >
                 Search
               </button>
+              <!-- Start filters section -->
+<section
+id="filters-section"
+class="p-6 bg-gray-100 rounded-lg max-w-4xl mx-auto my-8"
+>
+<h4 class="text-xl font-semibold text-gray-800 mb-4">Filter Settings</h4>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+  <!-- Genre Filter -->
+  <div>
+    <label for="genreFilter" class="block text-gray-700 font-medium">Genre</label>
+    <select
+      id="genreFilter"
+      class="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+    >
+      <option value="">All Genres</option>
+      <!-- Add options dynamically -->
+    </select>
+  </div>
+
+  <!-- Language Filter -->
+  <div>
+    <label for="languageFilter" class="block text-gray-700 font-medium">Language</label>
+    <select
+      id="languageFilter"
+      class="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+    >
+      <option value="">All Languages</option>
+      <!-- Add options dynamically -->
+    </select>
+  </div>
+
+  <!-- Age Rating Filter -->
+  <div>
+    <label for="ageRatingFilter" class="block text-gray-700 font-medium">Age Rating</label>
+    <select
+      id="ageRatingFilter"
+      class="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+    >
+      <option value="">All Ratings</option>
+      <!-- Add options dynamically -->
+    </select>
+  </div>
+
+  <!-- Showtime Filter -->
+  <div>
+    <label for="showtimeFilter" class="block text-gray-700 font-medium">Showtime</label>
+    <select
+      id="showtimeFilter"
+      class="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+    >
+      <option value="">Any Time</option>
+      <!-- Add options dynamically -->
+    </select>
+  </div>
+</div>
+</section>
+<!-- End filters section -->
+
             </form>
           </section>
         </div>
