@@ -1,11 +1,17 @@
-// Wait for the DOM to load (Timur)
+import {
+    getFavorites,
+    setFavorites,
+    removeFavoriteById,
+} from "./modules/storage.js";
+
+// Wait for the DOM to load (Timur) -> network module (API_KEY & API_URL)
 document.addEventListener("DOMContentLoaded", () => {
     const API_KEY = "e1db7731774da84825c6ecc635ee0aea"; // Replace with your TMDB API key (Timur)
     const API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
     const moviesContainer = document.getElementById("movies");
     const fetchMoviesButton = document.getElementById("fetchMovies");
 
-    // Function to fetch movies from TMDB API (Timur)
+    // Function to fetch movies from TMDB API (Timur) -> network module
     async function fetchMovies() {
         try {
             const response = await fetch(API_URL);
@@ -48,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Section: Popular Movies
 
-// Base URL TMDB API
+// Base URL TMDB API -> network module
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 
 // Size parameter
@@ -94,7 +100,7 @@ const displayPopMovs = (movie, container) => {
 
 // Section: Popular Movies
 
-// Function to fetch movies
+// Function to fetch movies -> network module
 const fetchPopMovs = async () => {
     try {
         const res = await fetch(
@@ -207,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("search");
     const searchBtn = document.getElementById("searchBtn");
 
-    // Function to search for keywords
+    // Function to search for keywords -> network module
     const fetchKeywordResults = async (query) => {
         const API_URL = `https://api.themoviedb.org/3/search/keyword?api_key=${API_KEY}&query=${encodeURIComponent(
             query
@@ -228,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // Function to fetch movies based on a keyword ID
+    // Function to fetch movies based on a keyword ID -> network module
     const fetchMoviesByKeyword = async (keywordId) => {
         const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_keywords=${keywordId}`;
         try {
@@ -286,17 +292,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 "mt-4 bg-red-500 text-white font-medium py-2 px-4 rounded-md hover:bg-red-600";
             addToFavoritesButton.textContent = "Add to favorites";
 
-            // Add to favorites function
+            // Adds the movie to the favorites list when the button is clicked.
             addToFavoritesButton.addEventListener("click", () => {
-                const favorites =
-                    JSON.parse(localStorage.getItem("favorites")) || [];
-                favorites.push(result);
-                localStorage.setItem("favorites", JSON.stringify(favorites));
+                const favorites = getFavorites(); // Hole aktuelle Favoriten
+                favorites.push(result); // Neues Ergebnis hinzufügen
+                setFavorites(favorites); // Favoriten speichern
                 alert(`${result.title} has been added to your favorites`);
             });
-
-            // Debugging: Check if button is created and appended
-            console.log("Button Created:", addToFavoritesButton);
 
             // Append all elements in the correct order
             resultContent.appendChild(resultTitle);
@@ -313,7 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Rendering Completed"); // Debugging: Rendering abgeschlossen
     };
 
-    // Function to handle search and render results
+    // Function to handle search and render results 
     const handleSearch = async () => {
         const query = searchInput.value.trim(); // Get the search query
         console.log("Search Query:", query); // Debugging output

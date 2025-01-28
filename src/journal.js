@@ -1,7 +1,14 @@
 // journal.js
+
+import {
+    getFavorites,
+    setFavorites,
+    removeFavoriteById,
+} from "./modules/storage.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const favoritesContainer = document.getElementById("favorites-container");
-    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    const favorites = getFavorites();
 
     if (favorites.length === 0) {
         favoritesContainer.innerHTML = `"<p class="text-white">No favorites added yet.</p>`;
@@ -40,13 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
         removeButton.classList =
             "mt-4 bg-red-500 text-white font-medium py-2 px-4 rounded-md hover:bg-red-600";
         removeButton.textContent = "Remove from favorites";
-
-        // Add Event Listener to Remove Button
         removeButton.addEventListener("click", () => {
-            const updatedFavorites = favorites.filter(
-                (fav) => fav.id !== movie.id
-            );
-            localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+            removeFavoriteById(movie.id);
             alert(`${movie.title} has been removed from favorites.`);
             location.reload(); // Refresh the page to update the list
         });
