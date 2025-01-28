@@ -3,6 +3,7 @@ import {
     setFavorites,
     removeFavoriteById,
 } from "./modules/storage.js";
+import { createAddFavBtn } from "./modules/fav-button.js";
 
 // Wait for the DOM to load (Timur) -> network module (API_KEY & API_URL)
 document.addEventListener("DOMContentLoaded", () => {
@@ -89,10 +90,14 @@ const displayPopMovs = (movie, container) => {
     releaseDate.className = "font-light text-xs italic pb-4";
     releaseDate.textContent = movie.release_date;
 
+    // Add to favorites button -> vav-button.js
+    const addToFavoritesButton = createAddFavBtn(movie);
+
     // Append elements to movie card
     movCard.appendChild(movImg);
     movCard.appendChild(movTitle);
     movCard.appendChild(releaseDate);
+    movCard.appendChild(addToFavoritesButton);
 
     // Append movie card
     container.appendChild(movCard);
@@ -182,13 +187,8 @@ const renderResults = (results) => {
         resultOverview.textContent =
             result.overview || "No overview available.";
 
-        // Add to Favorites Button
-        const addToFavoritesButton = document.createElement("button");
-        addToFavoritesButton.classList =
-            "mt-4 bg-red-500 text-white font-medium py-2 px-4 rounded-md hover:bg-red-600";
-        addToFavoritesButton.textContent = "Add to favorites";
-
-        console.log("Button Created:", addToFavoritesButton);
+        // Add to favorites button -> vav-button.js
+        const addToFavoritesButton = createAddFavBtn(result);
 
         // Append details and button
         resultContent.appendChild(resultTitle);
@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Rendering Completed"); // Debugging: Rendering abgeschlossen
     };
 
-    // Function to handle search and render results 
+    // Function to handle search and render results
     const handleSearch = async () => {
         const query = searchInput.value.trim(); // Get the search query
         console.log("Search Query:", query); // Debugging output
@@ -378,7 +378,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //     renderResults(testResults);
 // });
 
-
 //Filter Part - Timur
 // Add Filter Options for Movies
 const filters = {
@@ -421,8 +420,12 @@ function applyFilters() {
     const filteredMovies = movies.filter((movie) => {
         return (
             (filters.genre ? movie.genre_ids.includes(filters.genre) : true) &&
-            (filters.language ? movie.original_language === filters.language : true) &&
-            (filters.rating ? movie.vote_average >= parseRating(filters.rating) : true) &&
+            (filters.language
+                ? movie.original_language === filters.language
+                : true) &&
+            (filters.rating
+                ? movie.vote_average >= parseRating(filters.rating)
+                : true) &&
             (filters.showtime ? filterByShowtime(movie.release_date) : true)
         );
     });
@@ -430,33 +433,47 @@ function applyFilters() {
 }
 
 // Filter Event Handlers
-[genreFilter, languageFilter, ratingFilter, showtimeFilter].forEach((filterElement) => {
-    filterElement.addEventListener("change", (event) => {
-        filters[event.target.id.replace("Filter", "").toLowerCase()] = event.target.value;
-        applyFilters();
-    });
-});
+[genreFilter, languageFilter, ratingFilter, showtimeFilter].forEach(
+    (filterElement) => {
+        filterElement.addEventListener("change", (event) => {
+            filters[event.target.id.replace("Filter", "").toLowerCase()] =
+                event.target.value;
+            applyFilters();
+        });
+    }
+);
 
 // Helper Functions for Filtering
 function parseRating(rating) {
     switch (rating) {
-        case "G": return 1;
-        case "PG": return 3;
-        case "PG-13": return 5;
-        case "R": return 7;
-        case "NC-17": return 9;
-        default: return 0;
+        case "G":
+            return 1;
+        case "PG":
+            return 3;
+        case "PG-13":
+            return 5;
+        case "R":
+            return 7;
+        case "NC-17":
+            return 9;
+        default:
+            return 0;
     }
 }
 
 function filterByShowtime(releaseDate) {
     const currentHour = new Date().getHours();
     switch (filters.showtime) {
-        case "Morning": return currentHour >= 6 && currentHour < 12;
-        case "Afternoon": return currentHour >= 12 && currentHour < 18;
-        case "Evening": return currentHour >= 18 && currentHour < 22;
-        case "Night": return currentHour >= 22 || currentHour < 6;
-        default: return true;
+        case "Morning":
+            return currentHour >= 6 && currentHour < 12;
+        case "Afternoon":
+            return currentHour >= 12 && currentHour < 18;
+        case "Evening":
+            return currentHour >= 18 && currentHour < 22;
+        case "Night":
+            return currentHour >= 22 || currentHour < 6;
+        default:
+            return true;
     }
 }
 
@@ -465,13 +482,15 @@ let movies = [];
 async function fetchMoviesWithFilters() {
     try {
         const response = await fetch(API_URL);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok)
+            throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
         movies = data.results;
         applyFilters();
     } catch (error) {
         console.error("Error fetching movies:", error);
-        moviesContainer.innerHTML = "<p class='text-red-500'>Failed to load movies. Please try again later.</p>";
+        moviesContainer.innerHTML =
+            "<p class='text-red-500'>Failed to load movies. Please try again later.</p>";
     }
 }
 
