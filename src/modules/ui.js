@@ -1,6 +1,27 @@
 // ✅ Importiere Storage-Funktionen für Favoriten
 import { getFavorites, setFavorites, removeFavoriteById, isFavorite } from "./storage.js";
 
+// ✅ Funktion: "Add to Favorites"-Button erstellen
+export const createAddFavBtn = (movie) => {
+    const button = document.createElement("button");
+    button.classList = "mt-4 bg-red-500 text-white font-medium py-2 px-4 rounded-md hover:bg-red-600";
+    button.textContent = "Add to favorites";
+
+    button.addEventListener("click", () => {
+        const favorites = getFavorites();
+        if (!favorites.some((fav) => fav.id === movie.id)) {
+            favorites.push(movie);
+            setFavorites(favorites);
+            alert(`${movie.title} has been added to your favorites`);
+        } else {
+            alert(`${movie.title} is already in your favorites`);
+        }
+        updateFavoriteUI(); // 🔄 Favoriten-UI sofort aktualisieren
+    });
+
+    return button;
+};
+
 // ✅ Funktion: Popular Movies anzeigen (Slideshow)
 export const displayPopMovs = (movie, container) => {
     const movCard = document.createElement("div");
@@ -20,14 +41,18 @@ export const displayPopMovs = (movie, container) => {
     releaseDate.className = "font-light text-xs italic pb-4";
     releaseDate.textContent = movie.release_date;
 
+    // ✅ "Add to Favorites"-Button hinzufügen
+    const favButton = createAddFavBtn(movie);
+
     // 🔄 Elemente hinzufügen
     movCard.appendChild(movImg);
     movCard.appendChild(movTitle);
     movCard.appendChild(releaseDate);
+    movCard.appendChild(favButton); // Button wird angehängt
     container.appendChild(movCard);
 };
 
-// ✅ Funktion: Suchergebnisse rendern
+// ✅ Funktion: Suchergebnisse rendern (mit Favoriten-Button)
 export const renderResults = (results) => {
     const resultsContainer = document.querySelector("#resultCards");
     if (!resultsContainer) {
@@ -59,18 +84,20 @@ export const renderResults = (results) => {
 
         const resultOverview = document.createElement("p");
         resultOverview.classList = "text-sm text-gray-700 leading-relaxed";
-        resultOverview.textContent =
-            result.overview || "No overview available.";
+        resultOverview.textContent = result.overview || "No overview available.";
 
+        // ✅ "Add to Favorites"-Button hinzufügen
+        const favButton = createAddFavBtn(result);
         resultContent.appendChild(resultTitle);
         resultContent.appendChild(resultOverview);
+        resultContent.appendChild(favButton); // Button wird hinzugefügt
+
         resultItem.appendChild(imgContainer);
         resultItem.appendChild(resultContent);
-
         resultsContainer.appendChild(resultItem);
     });
 
-    console.log("Rendering Completed");
+    console.log("✅ Suchergebnisse gerendert!");
 };
 
 // ✅ Funktion: Favoriten in der UI anzeigen
@@ -101,7 +128,7 @@ export const updateFavoriteUI = () => {
             button.addEventListener("click", (event) => {
                 const movieId = parseInt(event.target.dataset.id);
                 removeFavoriteById(movieId);
-                updateFavoriteUI();
+                updateFavoriteUI(); // 🔄 UI erneut aktualisieren
             });
         });
     }

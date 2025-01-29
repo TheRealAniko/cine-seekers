@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="favicon/favicon-32x32.png" />
+  <!-- <link rel="icon" type="image/x-icon" href="favicon/favicon-32x32.png" /> -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css"/>
     <title>Cine Seekers</title>
@@ -154,6 +154,23 @@ class="p-6 bg-gray-100 rounded-lg max-w-4xl mx-auto my-8"
       </section>
       <!-- End hero section -->
 
+                  <!-- Start section results -->
+                  <section id="results-section" class="bg-black py-8 hidden">
+                    <!-- content wrapper -->
+                    <div id="results-container" class="container mx-auto">
+                        <!-- headline container -->
+                        <div class="mb-6">
+                            <h2 class="text-2xl font-bold text-white">
+                                Search Results
+                            </h2>
+                        </div>
+                        <!-- result container -->
+                        <div
+                        id="resultCards"
+                        class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                    </div>
+                </section>
+                <!-- End section results -->
             
             <!-- Start section popular movies -->
 <section class="bg-gray-900 text-white py-6 px-8 rounded-lg container mx-auto mb-6 shadow-lg" id="popular">
@@ -228,6 +245,6 @@ class="p-6 bg-gray-100 rounded-lg max-w-4xl mx-auto my-8"
             </div>
         </div>
     </footer>
-        <script type="module" src="./index.js"></script>
+      <script type="module" src="./index.js"></script>
     </body>
 </html>
