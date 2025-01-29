@@ -1,25 +1,31 @@
-// storage.js
+const FAVORITES_KEY = "favoriteMovies";
 
-// Fetches the favorites from localStorage.
+// ✅ Holt Favoriten aus LocalStorage (mit Fehler-Handling)
 export function getFavorites() {
-    const storedFavorites = localStorage.getItem("favorites");
+    const storedFavorites = localStorage.getItem(FAVORITES_KEY);
     try {
         return storedFavorites ? JSON.parse(storedFavorites) : [];
     } catch (error) {
-        console.error("Invalid JSON in localStorage:", error);
-        localStorage.removeItem("favorites"); // Entfernt defekte Daten
-        return []; // Gibt ein leeres Array zurück
+        console.error("❌ Invalid JSON in localStorage:", error);
+        localStorage.removeItem(FAVORITES_KEY);
+        return [];
     }
 }
 
-// Saves the provided array of favorites into localStorage.
+// ✅ Speichert Favoriten in LocalStorage
 export function setFavorites(favorites) {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
 }
 
-// Removes a favorite by its ID from the list of favorites stored in localStorage.
+// ✅ Entfernt Favoriten nach ID
 export function removeFavoriteById(id) {
     const favorites = getFavorites();
-    const updatedFavorites = favorites.filter((fav) => fav.id !== id);
+    const updatedFavorites = favorites.filter(fav => fav.id !== id);
     setFavorites(updatedFavorites);
+}
+
+// ✅ Prüft, ob ein Film in den Favoriten ist
+export function isFavorite(id) {
+    const favorites = getFavorites();
+    return favorites.some(movie => movie.id === id);
 }

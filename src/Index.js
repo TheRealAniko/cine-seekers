@@ -1,4 +1,4 @@
-// Import of network module functions
+// ✅ Importiere API-Funktionen aus network.js
 import {
     fetchMovies,
     fetchPopMovs,
@@ -6,71 +6,58 @@ import {
     fetchMoviesByKeyword
 } from "./modules/network.js";
 
-// Import of UI module functions
+// ✅ Importiere UI-Funktionen aus ui.js
 import {
-    displayMovies,
     displayPopMovs,
-    renderResults
+    renderResults,
+    updateFavoriteUI
 } from "./modules/ui.js";
 
-// Import of storage module functions
-import {
-    getFavorites,
-    setFavorites,
-    removeFavoriteById,
-    isFavorite
-} from "./modules/storage.js";
-
-
-// Wait for DOMContentLoaded
+// 🎬 Warten, bis das DOM geladen ist
 document.addEventListener("DOMContentLoaded", async () => {
-    console.log("DOM Content Loaded!");
+    console.log("📢 DOM geladen!");
 
-    const moviesContainer = document.getElementById("movies");
     const popMovs = document.querySelector("#popular-movie-container");
 
-    // Fetch movies
-    const movies = await fetchMovies();
-    if (movies.length > 0) {
-        displayMovies(movies);
-    } else {
-        moviesContainer.innerHTML = "<p class='text-red-500'>No movies available.</p>";
-    }
-
-    // Fetch popular movies
+    // 🎥 Popular Movies für Slideshow abrufen & anzeigen
     const popMovies = await fetchPopMovs();
+    console.log("📢 Popular Movies received in index.js:", popMovies);
     if (popMovies.length > 0) {
         const top10Movies = popMovies.slice(0, 10);
         top10Movies.forEach(movie => displayPopMovs(movie, popMovs));
     } else {
-        console.log("No popular movies to display.");
+        console.log("❌ No popular movies to display.");
     }
 
-    // Update favorites
+    // 🎥 Favoriten in der UI anzeigen
     updateFavoriteUI();
 
-    // Initialize search elements
+    // 🔎 Such-Funktion
     const searchInput = document.getElementById("search");
     const searchBtn = document.getElementById("searchBtn");
     const resultsContainer = document.getElementById("resultCards");
     const resultsSection = document.getElementById("results-section");
 
-    // Search and display results
     const handleSearch = async () => {
         const query = searchInput.value.trim();
+        console.log(`🔎 Suche nach: "${query}"`);
         if (!query) {
             alert("Please enter a valid search term!");
             return;
         }
 
         const keywordResults = await fetchKeywordResults(query);
+        console.log("📢 Keyword API response:", keywordResults);
         if (!keywordResults.length) {
             resultsContainer.innerHTML = `<p class='text-red-500'>No results found for "${query}".</p>`;
             return;
         }
 
         const keywordId = keywordResults[0].id;
+        console.log(`🔄 Fetching movies with keyword ID: ${keywordId}`);
+
         const movies = await fetchMoviesByKeyword(keywordId);
+        console.log("📢 Movies found by keyword:", movies);
 
         if (movies.length === 0) {
             resultsContainer.innerHTML = `<p class='text-red-500'>No movies found for the keyword "${query}".</p>`;
@@ -93,37 +80,3 @@ document.addEventListener("DOMContentLoaded", async () => {
         handleSearch();
     });
 });
-
-// Update UI to display favorites
-const updateFavoriteUI = () => {
-    const favoriteContainer = document.getElementById("favorite-movies");
-    if (!favoriteContainer) return;
-
-    const favorites = getFavorites();
-    favoriteContainer.innerHTML = "";
-
-    if (favorites.length === 0) {
-        favoriteContainer.innerHTML = "<p class='text-gray-500'>No favorites added.</p>";
-    } else {
-        favorites.forEach(movie => {
-            const movieItem = document.createElement("div");
-            movieItem.classList = "p-2 bg-gray-800 text-white rounded";
-
-            movieItem.innerHTML = `
-                <h3 class="text-lg">${movie.title}</h3>
-                <button class="mt-2 px-2 py-1 bg-red-500 rounded remove-fav" data-id="${movie.id}">Remove</button>
-            `;
-
-            favoriteContainer.appendChild(movieItem);
-        });
-
-        // Event Listener "Remove"-Buttons
-        document.querySelectorAll(".remove-fav").forEach(button => {
-            button.addEventListener("click", (event) => {
-                const movieId = parseInt(event.target.dataset.id);
-                removeFavoriteById(movieId);
-                updateFavoriteUI();
-            });
-        });
-    }
-};
