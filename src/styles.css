@@ -6,7 +6,7 @@
     left: 0;
     width: 0;
     height: 2px;
-    background-color: #000000;
+    background-color: white;
     transition: width 0.4s ease-in-out;
   }
 
@@ -23,3 +23,4 @@
         .movie-card {
             flex: 0 0 15%;
         }
+

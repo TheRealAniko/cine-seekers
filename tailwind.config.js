@@ -14,6 +14,19 @@ module.exports = {
           'silver': '#C0C0C0',
           'transparent-black': 'rgba(0, 0, 0, 0.7)',
         },
+        
+        animation: {
+          'underline': 'underline-animation 0.4s ease-in-out',
+        },
+        keyframes: {
+          'underline-animation': {
+            '0%': { width: '0' },
+            '100%': { width: '100%' },
+          },
+        },
+
+
+
       },
     },
     plugins: [],
