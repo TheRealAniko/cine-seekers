@@ -6,34 +6,8 @@
       <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="favicon/favicon-32x32.png" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css"/>
     <title>Cine Seekers</title>
-    <style>
-      /* Custom Animation for the underline effect */
-      .hover-underline-animation::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background-color: #000000;
-        transition: width 0.4s ease-in-out;
-      }
-
-            .hover-underline-animation:hover::after {
-                width: 100%;
-            }
-
-            /* Smooth scrolling for better user experience */
-            #popular-movie-container {
-                scroll-behavior: smooth;
-            }
-
-            /* 5 display 5 movies at once */
-            .movie-card {
-                flex: 0 0 15%;
-            }
-        </style>
     </head>
 
     <body class="bg-cover bg-center min-h-screen flex flex-col" 
@@ -56,24 +30,12 @@
                     </figure>
 
                     <!-- Nav links -->
-                    <ul
-                        class="list-none flex gap-4 lg:gap-16 items-center text-light-grey font-semibold">
-                        <li
-                            class="relative hover-underline-animation font-black">
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li
-                            class="relative hover-underline-animation font-normal">
-                            <a href="journal.html">Journal</a>
-                        </li>
-                        <li
-                            class="relative hover-underline-animation font-normal">
-                            <a href="">About</a>
-                        </li>
-                        <li
-                            class="relative hover-underline-animation font-normal">
-                            <a href="">Contact</a>
-                        </li>
+                    <ul class="list-none flex gap-4 lg:gap-16 items-center text-light-grey">
+                        <li class="font-black"><a>Home</a></li>
+                        <li><a class="relative hover:before:animate-underline" href="journal.html">Journal</a></li>
+                        <li><a class="relative hover:before:animate-underline" href="">About</a></li>
+                        <li><a class="relative hover:before:animate-underline" href="">Contact</a></li>
+                        
                     </ul>
                 </div>
             </nav>
