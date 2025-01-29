@@ -195,53 +195,35 @@ class="p-6 bg-gray-100 rounded-lg max-w-4xl mx-auto my-8"
       <!-- End hero section -->
 
             
-            <!-- Start section results -->
-            <section id="results-section" class="bg-black py-8 hidden">
-                <!-- content wrapper -->
-                <div id="results-container" class="container mx-auto">
-                    <!-- headline container -->
-                    <div class="mb-6">
-                        <h2 class="text-2xl font-bold text-white">
-                            Search Results
-                        </h2>
-                    </div>
-                    <!-- result container -->
-                    <div
-                    id="resultCards"
-                    class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-                </div>
-            </section>
-            <!-- End section results -->
-
             <!-- Start section popular movies -->
-            <section
-                class="bg-[rgba(0,0,0,0.3)] text-white py-2 px-6 rounded-md container mx-auto mb-2"
-                id="popular">
-                <div class="flex flex-col">
-                    <h2 class="text-2xl font-bold my-4">Popular Movies</h2>
-                    <!-- slideshow container -->
-                    <div class="relative">
-                        <div
-                            id="popular-movie-container"
-                            class="flex overflow-x-scroll space-x-4">
-                            <!-- Retrieve and display a list of popular movies from TMDB API. -->
-                        </div>
+<section class="bg-gray-900 text-white py-6 px-8 rounded-lg container mx-auto mb-6 shadow-lg" id="popular">
+  <div class="flex flex-col">
+    <h2 class="text-3xl font-extrabold mb-6 text-center">Popular Movies</h2>
 
-                        <!-- slideshow buttons -->
-                        <button
-                            id="prev"
-                            class="absolute hidden border left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-4 py-2 rounded-full">
-                            Prev
-                        </button>
-                        <button
-                            id="next"
-                            class="absolute hidden border right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-4 py-2 rounded-full">
-                            Next
-                        </button>
-                    </div>
-                </div>
-            </section>
-            <!-- End section popular movies -->
+    <!-- Slideshow container -->
+    <div class="relative group">
+      <div id="popular-movie-container" class="flex overflow-x-scroll space-x-6 p-4 scroll-smooth scrollbar-hide">
+        <!-- Retrieve and display a list of popular movies from TMDB API. -->
+      </div>
+
+      <!-- Slideshow buttons -->
+      <button
+        id="prev"
+        class="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+      >
+        ❮
+      </button>
+      <button
+        id="next"
+        class="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+      >
+        ❯
+      </button>
+    </div>
+  </div>
+</section>
+<!-- End section popular movies -->
+
         </main>
 
         <footer class="bg-[rgba(0,0,0,0.3)] text-white pt-5 pb-4">

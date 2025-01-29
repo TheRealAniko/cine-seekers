@@ -477,3 +477,42 @@ async function fetchMoviesWithFilters() {
 
 // Call fetchMoviesWithFilters on Page Load
 document.addEventListener("DOMContentLoaded", fetchMoviesWithFilters);
+
+
+// Carousel
+
+document.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById("popular-movie-container");
+    const prevButton = document.getElementById("prev");
+    const nextButton = document.getElementById("next");
+  
+    let scrollAmount = 0;
+    const scrollSpeed = 2; // Adjust speed
+    const step = 1; // Pixels per frame
+  
+    function autoScroll() {
+      if (container.scrollLeft >= container.scrollWidth - container.clientWidth) {
+        container.scrollLeft = 0; // Reset to start when reaching the end
+      } else {
+        container.scrollLeft += step; // Move right
+      }
+    }
+  
+    let scrollInterval = setInterval(autoScroll, scrollSpeed);
+  
+    // Pause scrolling when hovering
+    container.addEventListener("mouseenter", () => clearInterval(scrollInterval));
+    container.addEventListener("mouseleave", () => {
+      scrollInterval = setInterval(autoScroll, scrollSpeed);
+    });
+  
+    // Manual scrolling with buttons
+    prevButton.addEventListener("click", () => {
+      container.scrollBy({ left: -300, behavior: "smooth" });
+    });
+  
+    nextButton.addEventListener("click", () => {
+      container.scrollBy({ left: 300, behavior: "smooth" });
+    });
+  });
+  
