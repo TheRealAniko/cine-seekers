@@ -1,0 +1,25 @@
+ /* Custom Animation for the underline effect in links */
+ .hover-underline-animation::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #000000;
+    transition: width 0.4s ease-in-out;
+  }
+
+        .hover-underline-animation:hover::after {
+            width: 100%;
+        }
+
+        /* Smooth scrolling for better user experience */
+        #popular-movie-container {
+            scroll-behavior: smooth;
+        }
+
+        /* 5 display 5 movies at once */
+        .movie-card {
+            flex: 0 0 15%;
+        }
