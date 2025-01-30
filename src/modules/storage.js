@@ -17,14 +17,14 @@ export function setFavorites(favorites) {
     localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
 }
 
-// Remove favorites per ID
+// Remove favorites by ID
 export function removeFavoriteById(id) {
     const favorites = getFavorites();
     const updatedFavorites = favorites.filter(fav => fav.id !== id);
     setFavorites(updatedFavorites);
 }
 
-// Verification whether movie is already added
+// Check if a movie already exists
 export function isFavorite(id) {
     const favorites = getFavorites();
     return favorites.some(movie => movie.id === id);

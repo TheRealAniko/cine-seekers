@@ -52,6 +52,7 @@ export const displayPopMovs = (movie, container) => {
 };
 
 // Render search results
+// Render search results
 export const renderResults = (results) => {
     const resultsContainer = document.querySelector("#resultCards");
     if (!resultsContainer) {
@@ -96,9 +97,10 @@ export const renderResults = (results) => {
         resultsContainer.appendChild(resultItem);
     });
 
-    console.log("✅ Suchergebnisse gerendert!");
+    console.log("Search results rendered!");
 };
 
+// Display favorites in UI
 // Display favorites in UI
 export const updateFavoriteUI = () => {
     const favoriteContainer = document.getElementById("favorite-movies");
@@ -127,6 +129,7 @@ export const updateFavoriteUI = () => {
             button.addEventListener("click", (event) => {
                 const movieId = parseInt(event.target.dataset.id);
                 removeFavoriteById(movieId);
+                updateFavoriteUI(); 
                 updateFavoriteUI(); 
             });
         });
