@@ -1,4 +1,4 @@
-// ✅ Import fetch / network functions
+// Import fetch / network functions
 import {
     fetchMovies,
     fetchPopMovs,
@@ -6,7 +6,7 @@ import {
     fetchMoviesByKeyword
 } from "./modules/network.js";
 
-// ✅ Import UI functions
+// Import UI functions
 import {
     displayPopMovs,
     renderResults,
