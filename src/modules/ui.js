@@ -1,22 +1,61 @@
 // ✅ Importiere Storage-Funktionen für Favoriten
-import { getFavorites, setFavorites, removeFavoriteById, isFavorite } from "./storage.js";
+import {
+    getFavorites,
+    setFavorites,
+    removeFavoriteById,
+    isFavorite,
+} from "./storage.js";
 
 // ✅ Funktion: "Add to Favorites"-Button erstellen
-export const createAddFavBtn = (movie) => {
+export const createAddFavBtn = (movie, isJournalPage = false) => {
     const button = document.createElement("button");
-    button.classList = "mt-4 bg-red-500 text-white font-medium py-2 px-4 rounded-md hover:bg-red-600";
-    button.textContent = "Add to favorites";
+    button.classList =
+        "flex items-center gap-2 transition border rounded-md p-2 w-full justify-end";
+
+    const heartIcon = document.createElement("span");
+    button.appendChild(heartIcon);
+
+    const updateHeart = () => {
+        const favorites = getFavorites();
+        const isFavorite = favorites.some((fav) => fav.id === movie.id);
+
+        heartIcon.innerHTML = isFavorite
+            ? `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z" />
+            </svg>`
+            : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z" />
+            </svg>`;
+    };
+
+    updateHeart(); // Initial setzen
 
     button.addEventListener("click", () => {
-        const favorites = getFavorites();
-        if (!favorites.some((fav) => fav.id === movie.id)) {
+        let favorites = getFavorites();
+        const isFavorite = favorites.some((fav) => fav.id === movie.id);
+
+        if (isFavorite) {
+            favorites = favorites.filter((fav) => fav.id !== movie.id);
+            setFavorites(favorites);
+
+            if (isJournalPage) {
+                // **Falls auf der Journal-Seite → Film sofort entfernen**
+                button.closest(".movie-card").remove();
+            } else {
+                // **Sonst nur das Icon wechseln**
+                updateHeart();
+            }
+            alert(`${movie.title} has been removed from favorites.`);
+        } else {
             favorites.push(movie);
             setFavorites(favorites);
-            alert(`${movie.title} has been added to your favorites`);
-        } else {
-            alert(`${movie.title} is already in your favorites`);
+            updateHeart();
+            alert(
+                isFavorite
+                    ? `${movie.title} is already in your favorites.`
+                    : `${movie.title} has been added to your favorites.`
+            );
         }
-        updateFavoriteUI(); // 🔄 Favoriten-UI sofort aktualisieren
     });
 
     return button;
@@ -25,7 +64,8 @@ export const createAddFavBtn = (movie) => {
 // ✅ Funktion: Popular Movies anzeigen (Slideshow)
 export const displayPopMovs = (movie, container) => {
     const movCard = document.createElement("div");
-    movCard.className = "movie-card rounded-md flex-shrink-0 flex flex-col items-center";
+    movCard.className =
+        "movie-card rounded-md flex-shrink-0 flex flex-col items-center";
 
     const poster = `https://image.tmdb.org/t/p/w780${movie.poster_path}`;
     const movImg = document.createElement("img");
@@ -84,7 +124,8 @@ export const renderResults = (results) => {
 
         const resultOverview = document.createElement("p");
         resultOverview.classList = "text-sm text-gray-700 leading-relaxed";
-        resultOverview.textContent = result.overview || "No overview available.";
+        resultOverview.textContent =
+            result.overview || "No overview available.";
 
         // ✅ "Add to Favorites"-Button hinzufügen
         const favButton = createAddFavBtn(result);
@@ -109,9 +150,10 @@ export const updateFavoriteUI = () => {
     favoriteContainer.innerHTML = "";
 
     if (favorites.length === 0) {
-        favoriteContainer.innerHTML = "<p class='text-gray-500'>No favorites added.</p>";
+        favoriteContainer.innerHTML =
+            "<p class='text-gray-500'>No favorites added.</p>";
     } else {
-        favorites.forEach(movie => {
+        favorites.forEach((movie) => {
             const movieItem = document.createElement("div");
             movieItem.classList = "p-2 bg-gray-800 text-white rounded";
 
@@ -124,7 +166,7 @@ export const updateFavoriteUI = () => {
         });
 
         // ✅ Event Listener für "Remove"-Buttons
-        document.querySelectorAll(".remove-fav").forEach(button => {
+        document.querySelectorAll(".remove-fav").forEach((button) => {
             button.addEventListener("click", (event) => {
                 const movieId = parseInt(event.target.dataset.id);
                 removeFavoriteById(movieId);
@@ -154,7 +196,7 @@ export const renderFavorites = () => {
 
     favorites.forEach((movie) => {
         const movieCard = document.createElement("div");
-        movieCard.classList = "bg-white rounded-lg p-4 flex gap-4";
+        movieCard.classList = "bg-white rounded-lg p-4 flex gap-4 movie-card";
 
         // 📌 Movie Poster
         const imgContainer = document.createElement("div");
@@ -179,19 +221,13 @@ export const renderFavorites = () => {
         movieOverview.classList = "text-sm text-gray-700 leading-relaxed";
         movieOverview.textContent = movie.overview || "No overview available.";
 
-        // 📌 Remove from Favorites Button
-        const removeButton = document.createElement("button");
-        removeButton.classList = "mt-4 bg-red-500 text-white font-medium py-2 px-4 rounded-md hover:bg-red-600";
-        removeButton.textContent = "Remove from favorites";
-        removeButton.addEventListener("click", () => {
-            removeFavoriteById(movie.id);
-            renderFavorites(); // **🔄 Statt `location.reload()` → Live-Update**
-        });
+        // 📌 Remove from Favorites Button (jetzt mit `isJournalPage = true`)
+        const favButton = createAddFavBtn(movie, true);
 
         // 🔗 Elemente zusammenfügen
         movieContent.appendChild(movieTitle);
         movieContent.appendChild(movieOverview);
-        movieContent.appendChild(removeButton);
+        movieContent.appendChild(favButton);
         movieCard.appendChild(imgContainer);
         movieCard.appendChild(movieContent);
         favoritesContainer.appendChild(movieCard);
