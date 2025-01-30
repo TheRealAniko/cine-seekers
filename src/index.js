@@ -89,3 +89,123 @@ document.addEventListener("DOMContentLoaded", async () => {
         handleSearch();
     });
 });
+
+
+//Filter Part - Timur
+// Add Filter Options for Movies
+const filters = {
+    genre: "",
+    language: "",
+    rating: "",
+    showtime: "",
+};
+
+// DOM Elements for Filters
+const genreFilter = document.getElementById("genreFilter");
+const languageFilter = document.getElementById("languageFilter");
+const ratingFilter = document.getElementById("ageRatingFilter");
+const showtimeFilter = document.getElementById("showtimeFilter");
+
+// Populate Filter Dropdowns (Static Options)
+const genres = ["Action", "Comedy", "Drama", "Horror", "Sci-Fi"];
+const languages = ["English", "Spanish", "French", "German", "Hindi"];
+const ratings = ["G", "PG", "PG-13", "R", "NC-17"];
+const showtimes = ["Morning", "Afternoon", "Evening", "Night"];
+
+// Helper to Populate Dropdowns
+function populateDropdown(dropdown, options) {
+    options.forEach((option) => {
+        const opt = document.createElement("option");
+        opt.value = option;
+        opt.textContent = option;
+        dropdown.appendChild(opt);
+    });
+}
+
+// Populate Filters
+populateDropdown(genreFilter, genres);
+populateDropdown(languageFilter, languages);
+populateDropdown(ratingFilter, ratings);
+populateDropdown(showtimeFilter, showtimes);
+
+// Event Listeners for Filters
+function applyFilters() {
+    const filteredMovies = movies.filter((movie) => {
+        return (
+            (filters.genre ? movie.genre_ids.includes(filters.genre) : true) &&
+            (filters.language
+                ? movie.original_language === filters.language
+                : true) &&
+            (filters.rating
+                ? movie.vote_average >= parseRating(filters.rating)
+                : true) &&
+            (filters.showtime ? filterByShowtime(movie.release_date) : true)
+        );
+    });
+    displayMovies(filteredMovies);
+}
+
+// Filter Event Handlers
+[genreFilter, languageFilter, ratingFilter, showtimeFilter].forEach(
+    (filterElement) => {
+        filterElement.addEventListener("change", (event) => {
+            filters[event.target.id.replace("Filter", "").toLowerCase()] =
+                event.target.value;
+            applyFilters();
+        });
+    }
+);
+
+// Helper Functions for Filtering
+function parseRating(rating) {
+    switch (rating) {
+        case "G":
+            return 1;
+        case "PG":
+            return 3;
+        case "PG-13":
+            return 5;
+        case "R":
+            return 7;
+        case "NC-17":
+            return 9;
+        default:
+            return 0;
+    }
+}
+
+function filterByShowtime(releaseDate) {
+    const currentHour = new Date().getHours();
+    switch (filters.showtime) {
+        case "Morning":
+            return currentHour >= 6 && currentHour < 12;
+        case "Afternoon":
+            return currentHour >= 12 && currentHour < 18;
+        case "Evening":
+            return currentHour >= 18 && currentHour < 22;
+        case "Night":
+            return currentHour >= 22 || currentHour < 6;
+        default:
+            return true;
+    }
+}
+
+// Fetch Movies and Apply Filters
+let movies = [];
+async function fetchMoviesWithFilters() {
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok)
+            throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        movies = data.results;
+        applyFilters();
+    } catch (error) {
+        console.error("Error fetching movies:", error);
+        moviesContainer.innerHTML =
+            "<p class='text-red-500'>Failed to load movies. Please try again later.</p>";
+    }
+}
+
+// Call fetchMoviesWithFilters on Page Load
+document.addEventListener("DOMContentLoaded", fetchMoviesWithFilters);
