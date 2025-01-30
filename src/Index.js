@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const keywordResults = await fetchKeywordResults(query);
         console.log("📢 Keyword API response:", keywordResults);
         if (!keywordResults.length) {
-            resultsContainer.innerHTML = `<p class='text-red-500'>No results found for "${query}".</p>`;
+            resultsContainer.innerHTML = `<p class='text-red-500'>No results found for "${query}". Try a different keyword.</p>`;
             return;
         }
 

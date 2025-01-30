@@ -74,7 +74,7 @@ export const displayPopMovs = (movie, container) => {
     movImg.className = "object-fit w-full rounded-md";
 
     const movTitle = document.createElement("h3");
-    movTitle.className = "font-semibold text-white mb-1";
+    movTitle.className = "font-semibold text-white text-center mb-1 pt-3";
     movTitle.textContent = movie.title;
 
     const releaseDate = document.createElement("p");
