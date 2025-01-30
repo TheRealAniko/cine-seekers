@@ -202,12 +202,14 @@ export const renderFavorites = () => {
         const imgContainer = document.createElement("div");
         imgContainer.classList = "flex-shrink-0 mx-auto md:mx-0";
         const img = document.createElement("img");
-        img.classList = "max-h-48 w-auto bg-gray-300 rounded-md";
+        img.classList = "max-h-48 w-auto rounded-md";
         img.src = movie.poster_path
             ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
             : "https://via.placeholder.com/150";
         img.alt = movie.title || "No title";
         imgContainer.appendChild(img);
+
+        
 
         // 📌 Movie Details
         const movieContent = document.createElement("div");
