@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateFavoriteUI();
 
     // Search function
-    // Search function
     const searchInput = document.getElementById("search");
     const searchBtn = document.getElementById("searchBtn");
     const resultsContainer = document.getElementById("resultCards");

@@ -1,4 +1,4 @@
-// ✅ Importiere Storage-Funktionen für Favoriten
+// Import storage functions
 import {
     getFavorites,
     setFavorites,
@@ -12,7 +12,7 @@ import { getFavorites, setFavorites, removeFavoriteById, isFavorite } from "./st
 export const createAddFavBtn = (movie, isJournalPage = false) => {
     const button = document.createElement("button");
     button.classList =
-        "flex items-center gap-2 transition border rounded-md p-2 w-full justify-end";
+        "flex items-center gap-2 transition p-2 w-10 h-10 justify-end";
 
     const heartIcon = document.createElement("span");
     button.appendChild(heartIcon);
@@ -30,7 +30,7 @@ export const createAddFavBtn = (movie, isJournalPage = false) => {
             </svg>`;
     };
 
-    updateHeart(); // Initial setzen
+    updateHeart(); // Initial set
 
     button.addEventListener("click", () => {
         let favorites = getFavorites();
@@ -41,10 +41,10 @@ export const createAddFavBtn = (movie, isJournalPage = false) => {
             setFavorites(favorites);
 
             if (isJournalPage) {
-                // **Falls auf der Journal-Seite → Film sofort entfernen**
+                // **If on the journal page → Remove film immediately**
                 button.closest(".movie-card").remove();
             } else {
-                // **Sonst nur das Icon wechseln**
+                // **Otherwise just change the icon**
                 updateHeart();
             }
             alert(`${movie.title} has been removed from favorites.`);
