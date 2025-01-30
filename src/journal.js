@@ -1,5 +1,5 @@
 // ✅ Importiere UI-Funktion zum Rendern der Favoriten
-import { renderFavorites } from "./modules/ui.js";
+import { renderFavorites, createAddFavBtn } from "./modules/ui.js";
 
 // ✅ Favoriten anzeigen, sobald `journal.html` geladen wird
 document.addEventListener("DOMContentLoaded", () => {
