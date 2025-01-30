@@ -5,8 +5,10 @@ import {
     removeFavoriteById,
     isFavorite,
 } from "./storage.js";
+// Import functions from storage
+import { getFavorites, setFavorites, removeFavoriteById, isFavorite } from "./storage.js";
 
-// ✅ Funktion: "Add to Favorites"-Button erstellen
+// Add favorites button
 export const createAddFavBtn = (movie, isJournalPage = false) => {
     const button = document.createElement("button");
     button.classList =
@@ -56,12 +58,13 @@ export const createAddFavBtn = (movie, isJournalPage = false) => {
                     : `${movie.title} has been added to your favorites.`
             );
         }
+        updateFavoriteUI();
     });
 
     return button;
 };
 
-// ✅ Funktion: Popular Movies anzeigen (Slideshow)
+// Display popular movies
 export const displayPopMovs = (movie, container) => {
     const movCard = document.createElement("div");
     movCard.className =
@@ -81,18 +84,17 @@ export const displayPopMovs = (movie, container) => {
     releaseDate.className = "font-light text-xs italic pb-4";
     releaseDate.textContent = movie.release_date;
 
-    // ✅ "Add to Favorites"-Button hinzufügen
+    // Add to favorites button
     const favButton = createAddFavBtn(movie);
 
-    // 🔄 Elemente hinzufügen
     movCard.appendChild(movImg);
     movCard.appendChild(movTitle);
     movCard.appendChild(releaseDate);
-    movCard.appendChild(favButton); // Button wird angehängt
+    movCard.appendChild(favButton); 
     container.appendChild(movCard);
 };
 
-// ✅ Funktion: Suchergebnisse rendern (mit Favoriten-Button)
+// Render search results
 export const renderResults = (results) => {
     const resultsContainer = document.querySelector("#resultCards");
     if (!resultsContainer) {
@@ -127,21 +129,21 @@ export const renderResults = (results) => {
         resultOverview.textContent =
             result.overview || "No overview available.";
 
-        // ✅ "Add to Favorites"-Button hinzufügen
+        // Add to favorites button
         const favButton = createAddFavBtn(result);
         resultContent.appendChild(resultTitle);
         resultContent.appendChild(resultOverview);
-        resultContent.appendChild(favButton); // Button wird hinzugefügt
+        resultContent.appendChild(favButton); 
 
         resultItem.appendChild(imgContainer);
         resultItem.appendChild(resultContent);
         resultsContainer.appendChild(resultItem);
     });
 
-    console.log("✅ Suchergebnisse gerendert!");
+    console.log("Search results rendered!");
 };
 
-// ✅ Funktion: Favoriten in der UI anzeigen
+// Display favorites in UI
 export const updateFavoriteUI = () => {
     const favoriteContainer = document.getElementById("favorite-movies");
     if (!favoriteContainer) return;
@@ -165,18 +167,19 @@ export const updateFavoriteUI = () => {
             favoriteContainer.appendChild(movieItem);
         });
 
-        // ✅ Event Listener für "Remove"-Buttons
-        document.querySelectorAll(".remove-fav").forEach((button) => {
+        // Event Listener for "Remove"-Buttons
+        document.querySelectorAll(".remove-fav").forEach(button => {
             button.addEventListener("click", (event) => {
                 const movieId = parseInt(event.target.dataset.id);
                 removeFavoriteById(movieId);
-                updateFavoriteUI(); // 🔄 UI erneut aktualisieren
+                updateFavoriteUI(); 
+                updateFavoriteUI(); 
             });
         });
     }
 };
 
-// ✅ Funktion: Favoriten in der UI anzeigen (für `journal.html`)
+// Display favorites in UI (for `journal.html`)
 export const renderFavorites = () => {
     const favoritesContainer = document.getElementById("favorites-container");
 
@@ -185,7 +188,7 @@ export const renderFavorites = () => {
         return;
     }
 
-    favoritesContainer.innerHTML = ""; // 🧹 Bestehende Inhalte löschen
+    favoritesContainer.innerHTML = "";
 
     const favorites = getFavorites();
 
@@ -198,7 +201,7 @@ export const renderFavorites = () => {
         const movieCard = document.createElement("div");
         movieCard.classList = "bg-white rounded-lg p-4 flex gap-4 movie-card";
 
-        // 📌 Movie Poster
+        // Movie poster
         const imgContainer = document.createElement("div");
         imgContainer.classList = "flex-shrink-0 mx-auto md:mx-0";
         const img = document.createElement("img");
@@ -209,7 +212,7 @@ export const renderFavorites = () => {
         img.alt = movie.title || "No title";
         imgContainer.appendChild(img);
 
-        // 📌 Movie Details
+        // Movie details
         const movieContent = document.createElement("div");
         movieContent.classList = "flex-1";
 
@@ -224,7 +227,6 @@ export const renderFavorites = () => {
         // 📌 Remove from Favorites Button (jetzt mit `isJournalPage = true`)
         const favButton = createAddFavBtn(movie, true);
 
-        // 🔗 Elemente zusammenfügen
         movieContent.appendChild(movieTitle);
         movieContent.appendChild(movieOverview);
         movieContent.appendChild(favButton);
