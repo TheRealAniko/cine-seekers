@@ -74,7 +74,7 @@ export const displayPopMovs = (movie, container) => {
     movImg.className = "object-fit w-full rounded-md";
 
     const movTitle = document.createElement("h3");
-    movTitle.className = "font-semibold text-white mb-1";
+    movTitle.className = "font-semibold text-white text-center mb-1 pt-3";
     movTitle.textContent = movie.title;
 
     const releaseDate = document.createElement("p");
@@ -202,7 +202,7 @@ export const renderFavorites = () => {
         const imgContainer = document.createElement("div");
         imgContainer.classList = "flex-shrink-0 mx-auto md:mx-0";
         const img = document.createElement("img");
-        img.classList = "max-h-48 w-auto rounded-md";
+        img.classList = "max-h-48 w-auto bg-gray-300 rounded-md";
         img.src = movie.poster_path
             ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
             : "https://via.placeholder.com/150";
